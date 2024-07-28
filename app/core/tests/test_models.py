@@ -18,3 +18,7 @@ class ModelTests(TestCase):
 
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
+        """
+        check_password used for checking the hashed
+        password is equal to actual password
+        """
