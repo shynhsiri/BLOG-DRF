@@ -22,3 +22,15 @@ class ModelTests(TestCase):
         check_password used for checking the hashed
         password is equal to actual password
         """
+
+    def test_new_user_email_normalized(self):
+        """email normalize"""
+        sample_emails = [
+            ['test1@EXAMPLE.com', 'test1@example.com'],
+            ['Test2@Example.com', 'Test2@example.com'],
+            ['TEST3@EXAMPLE.COM', 'TEST3@example.com'],
+            ['test4@example.COM', 'test4@example.com'],
+        ]
+        for email, expected in sample_emails:
+            user = get_user_model().objects.create_user(email, 'sample123')
+            self.assertEqual(user.email, expected)
