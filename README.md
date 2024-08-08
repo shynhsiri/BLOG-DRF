@@ -9,7 +9,7 @@ A blog app using django rest framework, Docker & ....
 
 - Using a custom user model.
 
-- Using Swagger UI
+- Using Swagger UI (API Documentation)
 
 
 Course: https://www.udemy.com/course/django-python-advanced/
