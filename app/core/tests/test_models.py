@@ -4,6 +4,8 @@ Tests for all models
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from core import models
+
 
 class ModelTests(TestCase):
     """Test models."""
@@ -50,3 +52,17 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_blog(self):
+        """Test creating a blog post successful."""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpass123'
+        )
+        blog = models.Blog.objects.create(
+            user=user,
+            title='Sample title',
+            description='Sample description',
+        )
+
+        self.assertEqual(str(blog), blog.title)
