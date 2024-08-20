@@ -10,10 +10,19 @@ from rest_framework.test import APIClient
 
 from core.models import Blog
 
-from blog.serializers import BlogSerializer
+from blog.serializers import (
+    BlogSerializer,
+    BlogDetailSerializer,
+)
 
 
 BLOGS_URL = reverse('blog:blog-list')
+
+
+#because we need to use id for diffrent details we use function for detail url
+def detail_url(blog_id):
+    """Create and Return blog detail URL."""
+    return reverse('blog:blog-detail', args=[blog_id])
 
 
 def create_blog(user, **params):
@@ -80,4 +89,14 @@ class PrivateBlogAPITests(TestCase):
         serializer = BlogSerializer(blogs, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
+
+    def test_get_blog_detail(self):
+        """Test retrieving a blog's details."""
+        blog = create_blog(user=self.user)
+
+        url = detail_url(blog.id)
+        res = self.client.get(url)
+
+        serializer = BlogDetailSerializer(blog)
         self.assertEqual(res.data, serializer.data)
