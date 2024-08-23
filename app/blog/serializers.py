@@ -13,3 +13,11 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = ['id', 'title', 'description']
         read_only_fields = ['id']
+
+
+class BlogDetailSerializer(BlogSerializer):
+    """Serializer for blog detail view."""
+
+    class Meta(BlogSerializer.Meta):
+        fields = BlogSerializer.Meta.fields  # + ['description']
+# if you want to add a external field use the commented code

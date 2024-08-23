@@ -19,7 +19,7 @@ from blog.serializers import (
 BLOGS_URL = reverse('blog:blog-list')
 
 
-#because we need to use id for diffrent details we use function for detail url
+# because we need to use id for diffrent details we use function for detail url
 def detail_url(blog_id):
     """Create and Return blog detail URL."""
     return reverse('blog:blog-detail', args=[blog_id])
