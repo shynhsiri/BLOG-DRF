@@ -100,3 +100,17 @@ class PrivateBlogAPITests(TestCase):
 
         serializer = BlogDetailSerializer(blog)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_blog(self):
+        """Test creating a blog."""
+        payload = {
+            'title': 'Sample title',
+            'description': 'Sample description',
+        }
+        res = self.client.post(BLOGS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        blog = Blog.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(getattr(blog, k), v)
+        self.assertEqual(blog.user, self.user)
