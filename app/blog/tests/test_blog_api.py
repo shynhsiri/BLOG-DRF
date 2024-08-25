@@ -37,6 +37,11 @@ def create_blog(user, **params):
     return blog
 
 
+def create_user(**params):
+    """Create and return a new user."""
+    return get_user_model().objects.create_user(**params)
+
+
 class PublicBlogAPITests(TestCase):
     """Test unauthenticated API requests."""
 
@@ -55,10 +60,7 @@ class PrivateBlogAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
-            'user@example.com',
-            'testpass123',
-        )
+        self.user = create_user(email='user@example.com', password='test123')
         self.client.force_authenticate(self.user)
 
     def test_retrive_blogs(self):
@@ -76,10 +78,7 @@ class PrivateBlogAPITests(TestCase):
 
     def test_blog_list_limited_to_user(self):
         """Test blog list is limited to authenticated user."""
-        other_user = get_user_model().objects.create_user(
-            'other@example.com',
-            'testpass123',
-        )
+        other_user = create_user(email='other@example.com', password='test123')
         create_blog(user=other_user)
         create_blog(user=self.user)
 
